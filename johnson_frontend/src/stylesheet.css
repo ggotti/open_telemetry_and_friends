@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 18em
+}
+
+#responseBox {
+    margin-top: 0.5em;
+    border: 1px solid black;
+    min-height: 6em;
+}
+
+.info button{
+    margin-top: 0.5em;
+}

@@ -1,0 +1,16 @@
+{
+  "/v1/traces": {
+    "target": "http://localhost:4318/v1/traces",
+    "changeOrigin": true,
+    "ws": true,
+    "logLevel": "debug",
+    "xfwd": true,
+    "toProxy": true,
+    "prependPath": false
+  },
+  "/api": {
+    "target": "http://localhost:3000",
+    "changeOrigin": true,
+    "prependPath": false
+  }
+}

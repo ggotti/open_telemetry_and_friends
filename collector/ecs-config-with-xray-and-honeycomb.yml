@@ -1,0 +1,49 @@
+extensions:
+    health_check:
+receivers:
+    otlp:
+        protocols:
+            grpc:
+                endpoint: 0.0.0.0:4317
+            http:
+                endpoint: 0.0.0.0:4318
+    awsxray:
+        endpoint: 0.0.0.0:2000
+        transport: udp
+    statsd:
+        endpoint: 0.0.0.0:8125
+        aggregation_interval: 60s
+
+processors:
+    batch/traces:
+        timeout: 1s
+        send_batch_size: 50
+    batch/metrics:
+        timeout: 60s
+
+exporters:
+    awsxray:
+    awsemf:
+        namespace: ECS/AWSOTel/Application
+        log_group_name: '/aws/ecs/application/metrics'
+    otlp/traces:
+        endpoint: "api.honeycomb.io:443"
+        headers:
+            "x-honeycomb-team": "${env:HONEYCOMB_KEY}"
+    otlp/metrics:
+        endpoint: api.honeycomb.io:443
+        headers:
+            "x-honeycomb-team": "${env:HONEYCOMB_KEY}"
+            "x-honeycomb-dataset": "${env:HONEYCOMB_DATASET}"
+service:
+    pipelines:
+        traces:
+            receivers: [otlp,awsxray]
+            processors: [batch/traces]
+            exporters: [awsxray, otlp/traces]
+        metrics:
+            receivers: [otlp, statsd]
+            processors: [batch/metrics]
+            exporters: [awsemf, otlp/metrics]
+
+    extensions: [health_check]
