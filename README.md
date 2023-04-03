@@ -26,7 +26,7 @@ key, which will then inject the API key into the various ECS containers.
 ```
 export HONEYCOMB_API_KEY=XXXXX
 ```
-![Frontend UI Example](screenshot)
+![Frontend UI Example](screenshot.png)
 
 ## Sub-Folders
 Folders are:
